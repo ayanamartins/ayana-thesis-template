@@ -1,0 +1,12 @@
+*.aux
+*.ent
+thesis-blx.bib
+*.blg
+*.toc
+*.xml
+*.ptc
+*.idx
+*.ilg
+*.ind
+*.log
+*.bbl
