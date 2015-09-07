@@ -1,0 +1,14 @@
+\@doanenote {a}
+macro:->Explanation
+that
+will
+appear
+in
+a
+separate
+page.
+\@endanenote 
+\@doanenote {b}
+macro:->More
+info!!
+\@endanenote 

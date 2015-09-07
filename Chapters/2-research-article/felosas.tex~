@@ -1,0 +1,625 @@
+\iffalse
+\documentclass[11pt, % Default font size
+               %fleqn, %left-justified equations
+               oneside] %one-sided or two-sided documents
+               {book}
+\usepackage[top=3cm,bottom=3cm,left=3.2cm,right=3.2cm,headsep=10pt,a4paper]{geometry} % Page margins
+\usepackage{xcolor} % Required for specifying colors by name
+\definecolor{blue}{RGB}{69,74,159} 
+\definecolor{green}{RGB}{18,173,91} % Define the green color used for highlighting throughout the book
+
+%----------------------------------------------------------------------------------------
+% Font Settings
+\usepackage{avant} % Use the Avantgarde font for headings
+%\usepackage{times} % Use the Times font for headings
+\usepackage{mathptmx} % Use the Adobe Times Roman as the default text font together with math symbols from the Sym­bol, Chancery and Com­puter Modern fonts
+\usepackage{microtype} % Slightly tweak font spacing for aesthetics
+\usepackage[utf8]{inputenc} % Required for including letters with accents
+\usepackage[T1]{fontenc} % Use 8-bit encoding that has 256 glyphs
+\usepackage{csquotes}
+\usepackage{endnotes}
+\usepackage{setspace}
+\onehalfspacing
+\usepackage{todonotes}
+\usepackage{tabularx}
+\newcolumntype{C}[1]{>{\hsize=#1\hsize\centering\arraybackslash}X}%
+%----------------------------------------------------------------------------------------
+% Bibliography
+\usepackage[style=authoryear,
+            %sorting=nyt,
+            %sortcites=true,
+            autopunct=true,
+            %babel=hyphen,
+            %hyperref=true,
+            %abbreviate=false,
+            backref=true,
+            %refsection=chapter,
+            backend=bibtex]
+{biblatex}
+\addbibresource{../../tese.bib} % BibTeX bibliography file
+\defbibheading{bibempty}{}
+
+%Another option with natbib which require a different method to do a bibliography section per chapter
+%\usepackage[square,numbers,sectionbib]{natbib}
+%\usepackage{chapterbib}
+%\usepackage{authblk}
+%\bibliographystyle{evolution}
+
+%----------------------------------------------------------------------------------------
+% Index
+\usepackage{calc} % For simpler calculation - used for spacing the index letter headings correctly
+\usepackage{makeidx} % Required to make an index
+\makeindex % Tells LaTeX to create the files required for indexing
+
+%----------------------------------------------------------------------------------------
+\input{../../structure} % Insert the commands.tex file which contains the majority of the structure behind the template
+
+%----------------------------------------------------------------------------------------
+
+\begin{document}
+\graphicspath{ {../../Images/}}
+\fi
+
+\chapterimage{Headers/felosas.pdf}
+%\begin{refsection}
+%------------------------------------------------
+\chapter[O papel do espaço na formação de espécies em anel]{Espaço e espécies em anel
+\label{chap:felosas}}
+
+{\Large\sffamily\textbf {O papel do espaço na formação de espécies em anel}}\\
+\vspace{0.6cm}
+\begin{tikzpicture}[remember picture,overlay]
+     \node[white,draw,text=black,text width=11.5cm] at (page cs:0.15,0.1) 
+     {\it\footnotesize O conteúdo deste capítulo foi publicado no artigo:
+      \textbf{Ayana B. Martins, Marcus A. M. de Aguiar, e Yaneer Bar-Yam}. 2013. 
+      “Evolution and Stability of Ring Species.” Proceedings of the National Academy of Sciences 110 (13): 
+      5080–84. doi:10.1073/pnas.1217034110.      
+      };
+\end{tikzpicture}
+\vspace{0.5cm}
+\newline
+\textcolor{green}{\rule[0.5ex]{1\columnwidth}{2pt}}
+{\large\sffamily\textbf {Resumo}}\\
+{Neste capítulo, investigamos o efeito da configuração espacial de barreiras geográficas na aquisição do isolamento
+reprodutivo. Simulamos, usando um modelo baseado em agentes, a expansão de uma
+população em volta de uma barreira central de modo que as duas formas terminais, que se encontram do outro
+lado da barreira, estivessem isoladas reprodutivamente, apesar da existência de fluxo gênico histórico e
+contemporâneo em torno da mesma.
+Comparamos padrões de variação genética e espacial dos complexos simulados 
+com os padrões encontrados na espécie em anel de \textit{Phylloscopus trochiloides}, um dos mais bem documentados
+exemplos deste fenômeno. Nossos resultados mostram que espécies em anel são instáveis e resultam em especiação 
+completa ou homogeneização da divergência adquirida durante o processo de expansão, porém podem persistir
+por períodos prolongados de tempo, mesmo na ausência de seleção ambiental. Esta persistência é afetada pela 
+configuração espacial e sugerimos que a forma da área de distribuição de \textit{Phylloscopus trochiloides} pode ser
+importante para a sua existência.
+Para este complexo, nossa análise sugere que este complexo poderá se separar em múltiplas
+espécies em 10 mil a 50 mil anos. Este trabalho é um exemplo de como modelos baseados em agentes podem ajudar a entender
+padrões de distribuição espacial da variação genética e discriminar o efeito de atributos geográficos em casos
+particulares.}\\
+\textcolor{green}{\rule[0.5ex]{1\columnwidth}{2pt}}
+
+\section{A espécie em anel do complexo de \textit{Phylloscopus trochiloides}}
+
+Atualmente, um dos exemplos mais bem documentados de espécies em anel é o complexo de \textit{Phylloscopus trochiloides}
+que ocorre em volta do Platô Tibetano \parencite{irwin_speciation_2005}. A região ao norte deste platô é habitada por
+dois táxons siberianos que estão isolados reprodutivamente, cujas áreas de distribuição se sobrepõem, e que se originaram
+a partir da expansão em direção ao norte de populações ancestrais himalaias após o último período glacial. 
+\parencite[revisão em][]{irwin_ring_2001}. No entanto, há fluxo gênico contemporâneo entre estes táxons devido a existência
+de uma cadeia de formas intermediárias em volta da barreira. Uma característica notável das formas siberianas, que ocorrem 
+na área de contato secundário, é que suas áreas de distribuição são muito maiores do que as dos demais táxons. A correlação
+positiva entre latitude e tamanho da área de distribuição é um padrão marcante encontrado em muitas espécies terrestres do Velho Mundo,
+especialmente aves e mamíferos \parencite{price_evolution_1997}, e é denominado regra de Rapoport \parencite{stevens_latitudinal_1989}.
+
+Neste capítulo, estudaremos as consequências de expansões populacionais acompanhadas de isolamento por distância e de mecanismos
+que permitam a aquisição de isolamento reprodutivo.
+Nosso modelo permite avaliar o papel de barreiras geográficas e de diferentes atributos dos organismos e da população na 
+formação de espécies em anel. Dada uma população que se expande em volta de uma barreira, podemos supor que, se a diferenciação 
+for rápida o suficiente, pode haver especiação por distância, como mostrado por \textcite{de_aguiar_global_2009}. 
+Por outro lado, se a diferenciação for lenta em relação ao processo de divergência, as frentes de expansão não estarão 
+suficientemente diferenciadas no momento do contato secundário, resultando em uma única espécie com distribuição circular.
+Este parece ser o caso, por exemplo, de alguns táxons de peixe-trombeta (gênero \textit{Aulostomus}) que apresentam
+distribuição circumtropical \parencite{bowen_phylogeography_2001}.
+A partir dos resultados das simulações, pretendemos demonstrar se um
+caso intermediário, uma espécie em anel, pode ser formar de modo robusto o suficiente para permitir sua observação em táxons
+reais. Em seguida, iremos investigar se a configuração espacial característica do complexo de \textit{Phylloscopus trochiloides}
+pode contribuir para a formação e persistência de espécies em anel. A necessidade de estudar como o arranjo espacial de elementos
+da paisagem pode resultar em estruturação genética tem sido reconhecida recentemente \parencite{bolliger_landscape_2014}. 
+Neste contexto, a configuração da área de distribuição deste complexo, caracterizada por uma maior extensão ao norte, é particularmente
+interessante pois o elemento a ser estudado não são as barreiras à dispersão, mas sim a forma da área de
+distribuição, que, a princípio, não é plenamente capturada por medidas de distância entre indivíduos. Como isso, pretendemos investigar
+se elementos da paisagem que tipicamente não são considerados em estudos de populações naturais podem contribuir para a estruturação
+das populações.
+
+\iffalse
+ There is a growing paradox in our understanding of the core issues of speciation and biodiversity. First, the manifest empirical importance of 
+selection in the traits of species appears to be counter to the ability to describe biodiversity using neutral models of speciation (1–4).
+Second, geographical heterogeneity, including geographical isolation, is no longer considered necessary to account for the emergence of new
+species. Traditionally the emergence of new species has been explained by a period of geographic isolation of subpopulations. In the absence of
+gene flow, genetic differences accumulate and reproductive isolation eventually arises (5). However, if population ranges are large enough, 
+genetic divergence can lead to speciation despite ongoing gene flow (6), as demonstrated by empirical and theoretical results (7–14). Moreover,
+it has been shown that existing patterns of diversity are consistent with such speciation with ongoing gene flow and without trait selection or
+spatial heterogeneity, as long as mating is constrained by spatial and genetic distances (15). Here we show that neutral models of speciation
+can also account for the genetic diversity of a single species in a context where geographical barriers play a central role in that diversity.
+We compare the diversity of a neutral model to empirical findings about a ring species formed when population expansion occurred around a
+geographical barrier. The genetic patterns are consistent even though selection is expected to be important for traits of this species (11, 16,
+17).
+\fi
+
+
+\section{Simulação de populações em expansão}
+
+A expansão de uma população em torno de uma barreira geográfica foi simulada
+usando o modelo baseado em indivíduos descrito
+no capítulo \ref{chap:simulando}, seção \ref{sec:modeloanel}. O espaço geográfico
+foi representado por sítios habitáveis dispostos em um reticulado de $128\times142$
+sítios com duas barreiras geográficas representadas por sítios que não podem ser
+ocupados pelos indivíduos (Fig. \ref{fig:barreiras}, onde também estão mostradas
+a área ocupada pela população inicial e a área de contanto secundário usada na detecção
+de espécies em anel). As barreiras geográficas ocuparam 11796 dos 18176 sítios simulados,
+deixando 6380 sítios habitáveis. Neste capítulo, incorporamos nas simulações um parâmetro
+correspondente ao número mínimo de parceiros potenciais ($P$).
+Quando há menos do que $P$ parceiros potenciais para um indivíduo, o seu raio de acasalamento
+($S$)
+aumenta em uma unidade. Se, após esse aumento, o número de parceiros ainda for menor do que $P$,
+o processo é repetido. O raio de acasalamento pode ser aumentado em até 10 unidades. Se neste
+caso, o número de possíveis parceiros ainda for menor do que $P$, o indivíduo não deixará
+descendentes. Este parâmetro aumenta a seleção contra indivíduos localizados em uma área
+ocupada por muitos indivíduos geneticamente distintos.
+
+\begin{figure}
+\centering
+\includegraphics[width=14cm]{Figures/felosas/barreiras.pdf}
+ \caption{\label{fig:barreiras} Configurações geográficas usadas nas simulações. As regiões mostradas em cinza não podem ser ocupadas
+por indivíduos. Os indivíduos da população inicial foram distribuídos aleatoriamente na área mostrada em azul, acima ou abaixo da maior 
+barreira dependendo do caso. A área delimitada pela linha tracejada vermelha corresponde a área de contato secundário, usada para definir
+a formação de espécies em anel. Nos casos em que a população foi amostrada, os indivíduo foram tomados de 10 áreas de amostragem fora da 
+área de contato secundário e distribuídas uniformemente em volta do anel (quadrados pretos).}
+\end{figure}
+
+\section{Formação de espécies em anel}
+
+\subsection{Resultados do processo de expansão populacional e divergência}
+
+As simulações realizadas resultaram em variação genética gradual em torno da barreira
+geográfica central. Para algumas combinações de parâmetros, as formas terminais presentes
+na região de contato secundário estavam isoladas reprodutivamente, porém conectadas por
+fluxo gênico através de indivíduos geneticamente intermediários localizados ao longo
+da área habitável (Fig. \ref{fig:anel}). Essa configuração caracteriza uma espécie em
+anel, como definido na seção \ref{sec:detec} do capítulo \ref{chap:simulando}, e demonstra
+que esses complexos podem ser formados por especiação por distância, como sugerido por
+\textcite{mayr_systematics_1942}. A formação de espécies em anel foi sensível à variação no raio de
+acasalamento ($S$), distância genética crítica que restringe a reprodução ($G$), taxa de mutação
+($\mu$), densidade populacional ($\rho$) e taxa de dispersão ($D$). A dependência entre a sua 
+formação e a variação nestes e em outros parâmetros será explorada em detalhe no 
+capítulo \ref{chap:aneisraros}. Os efeitos da variação da densidade populacional ($\rho$) e do taxa de dispersão
+($D$) serão explorados brevemente neste capítulo, enquanto os demais parâmetros serão mantidos 
+constantes ($B=125$, $S=9$, $G=20$, $\mu=0.0003$ (ver nota de rodapé)\numberlessnote{Apesar do texto estar em português, o ponto foi usado
+como separador decimal e a vírgula como separado de milhar} e $P=20$).
+
+\begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{Figures/felosas/its_a_ring.pdf}
+%\includegraphics[width=1\columnwidth]{Figures/felosas/its_a_ring.png}
+ \caption{\label{fig:anel}
+ Capturas instantâneas de um mesmo momento mostrando distância genética em relação a diferentes 
+ indivíduos de referência (estrelas). A simulação aqui mostrada é a mesma da figura \ref{fig:compara}.
+ Os indivíduos mostrados na cor azul escura correspondem a parceiros reprodutivos em potencial para
+ o indivíduo de referência, enquanto os indivíduos mais distantes geneticamente estão mostrados em
+ vermelho. As formas terminais apresentam-se geneticamente distintas e isoladas reprodutivamente
+ (primeiro e segundo quadros). No entanto,ambas estão igualmente diferenciadas em relação aos
+ indivíduos localizados na região de origem da população (último quadro).
+  As demais cores representam distâncias genéticas de acordo com os seguintes intervalos: azul claro 
+[\textit{G}, 1.15 \textit{G}]; verde [1.15 \textit{G}, 1.15\textsuperscript{2} \textit{G}]; amarelo 
+[1.15\textsuperscript{2} \textit{G}, 1.15\textsuperscript{3} \textit{G}]; laranja 
+[1.15\textsuperscript{3} \textit{G}, 1.15\textsuperscript{4} \textit{G}] 
+e vermelho, maior ou igual a 1.15\textsuperscript{4} \textit{G}. Esta escala de cores é a que será
+usada em todas as demais figuras que mostram a distância genética entre indivíduos.
+}
+\end{figure}
+
+Quando uma população se expande em volta de uma barreira, a relação entre velocidade de expansão 
+e divergência determina o destino das populações terminais após o contato secundário. Uma maior densidade populacional 
+dificulta a divergência \parencite{de_aguiar_moran_2011} e aumenta a velocidade de expansão. Outras propriedades que afetam 
+essa relação incluem propriedades da população e dos organismos (\textit{e.g.} taxa de crescimento intrínseco, tamanho da 
+vizinhança de acasalamento e taxa de dispersão) e propriedades geográficas (\textit{e.g.} largura do corredor formado pela
+barreira e tamanho da barreira), como veremos no capítulo \ref{chap:aneisraros}. Como esperado, espécies em anel se formam
+para condições intermediárias entre as que resultam em especiação por distância e as que resultam em uma única espécie
+(Fig. \ref{fig:notempo}). Além disso, estes três possíveis resultados do processo de expansão e divergência com isolamento
+por distância (mais de uma espécie, espécie em anel ou uma única espécie), podem ser associados a padrões específicos de
+variação genética e de sua distribuição espacial.
+
+\begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{Figures/felosas/notempo.pdf}
+%\includegraphics[width=1\columnwidth]{Figures/felosas/notempo.png}
+ \caption{\label{fig:notempo} Três simulações de expansão populacional em torno da barreira geográfica resultando em uma única
+espécie, espécie em anel ou duas espécies para diferentes valores de densidade populacional ($\rho$) e taxa de dispersão ($D$).
+T corresponde ao número de gerações. O último quadro mostra cada população algumas centenas de gerações após o contato secundário. As 
+cores representam a distância genética em relação a um indivíduo de referência marcado com uma estrela. Uma única espécie (primeira 
+linha): $\rho=0.55$ e $D=0.3$. Espécie em anel (segunda linha): a mesma simulação mostrada na Fig. \ref{fig:compara}, 
+ $\rho=0.35$ e $D=015$. Mais de uma espécie (terceira linha):  $\rho=0.2$ e $D=0.1$. Neste caso, dois grupos
+completamente isolados reprodutivamente estão presentes após 1500 gerações.
+}
+\end{figure}
+
+\subsection{Padrões de variação genética que identificam espécies em anel}
+
+A redução da dimensionalidade dos dados genéticos por um método de ordenação (análise de componentes principais, nesse caso) permite
+a identificação de espécies únicas, espécies em anel e múltiplas espécies por inspeção visual do gráfico dos dois primeiros 
+componentes principais (Fig. \ref{fig:pca} A, B e C, respectivamente). A identificação por inspeção visual corroborou a feita pelo
+algoritmo descrito na seção \ref{sec:detec} (capítulo \ref{chap:simulando}) em todas as simulações testadas. No entanto, efeitos de 
+amostragem podem confundir os padrões associados a cada caso (Fig. \ref{fig:pca} D, E e F), o que limita a aplicação desse tipo de 
+identificação em casos reais. A decomposição da variância do componente principal também apresenta um padrão característico para
+cada caso (ver legenda da Fig. \ref{fig:pca}). O padrão em forma de U na figura \ref{fig:pca}B é característico de espécies em anel.
+Quando há homogeneização das frentes de expansão após o contato secundário, este padrão em U se curva, assumindo uma forma circular
+semelhante a um O (processo em andamento na Fig. \ref{fig:pca}A).
+Em espécies em anel, a distância genética entre indivíduos aumenta linearmente
+com a distância geográfica medida em volta da barreira, e este padrão de isolamento por distância parece ser mais robusto 
+à amostragem (Fig. \ref{fig:correla}).
+
+\begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{Figures/felosas/pca.pdf}
+%\includegraphics[width=1\columnwidth]{Figures/felosas/pca.png}
+ \caption{\label{fig:pca} Dados genéticos transformados por análise de componentes principais para as três simulações mostradas na
+Fig. \ref{fig:notempo}. As cores representam a distância genética em relação a um indivíduo de referência marcado com uma estrela 
+nessa figura. A segunda linha (D, E e F) mostra os resultados do mesmo método aplicado a uma amostra de 25 loci de indivíduos 
+localizados nas 10 áreas de amostragem mostradas na Fig. \ref{fig:barreiras}. (A) uma única espécie após 1000 gerações (contato
+secundário ocorreu após 700 gerações). O PC1 (primeiro componente principal) explica $6.4\%$ da variância e PC2 (segundo componente
+principal), $3.2\%$; (B) espécie em anel após 2000 gerações (contato secundário ocorreu após 1400 gerações). O PC1 
+explica $13.3\%$ da variância e PC2, $5.6\%$; (C) duas espécies após 3200 gerações (contato secundário ocorreu após 2700 gerações). O PC1 
+explica $28.2\%$ da variância e PC2, $6.9\%$. Com amostragem: (D) uma única espécie, PC1 explica $12.2\%$ da variância e PC2, $9.8\%$; (E)
+espécie em anel, PC1 explica $17.4\%$ da variância e PC2, $8.7\%$; (F) duas espécies, PC1 explica $46.1\%$ da variância e PC2, $10.4\%$.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{Figures/felosas/correla.pdf}
+%\includegraphics[width=1\columnwidth]{Figures/felosas/correla.png}
+ \caption{\label{fig:correla} Distância genética em função da distância geográfica em volta do anel para as três simulações mostradas
+na Fig. \ref{fig:notempo} após 10 mil gerações. A distância genética par-a-par entre indivíduos e a distância geográfica em volta da 
+barreira são mostradas em A, B e C para 5000 pares escolhidos ao acaso. Após o contato secundário, as populações terminais se sobrepõem
+no espaço. Pares para os quais pelo menos um dos indivíduos está localizado na região de contato secundário são mostrados em vermelho
+(ver Fig. \ref{fig:barreiras}). Em B e C, os pontos que aparecem no quadrante superior esquerdo e no quadrante inferior direito
+representam pares para os quais pelo menos um dos indivíduos cruzou a linha central da área de contato secundário, o que resulta na
+inversão da correlação esperada. A distância genética par-a-par corrigida é calculada pelo número médio de diferenças
+par-a-par entre duas áreas geográficas diferentes menos o número médio de diferenças entre indivíduos dentro de uma mesma área 
+geográfica (D, E e F). As áreas geográficas foram definidas dividindo o espaço total em dez áreas de mesmo tamanho uniformemente 
+distribuídas em volta do barreira e excluindo a área de contato secundário. O mesmo método foi repetido para uma amostra de 25 loci
+de indivíduos localizados nos dez sítios de amostragem mostrados na Fig. \ref{fig:barreiras} (G, H e I).O gráfico mostrado na Fig.
+\ref{fig:compara} é o gráfico H com os eixos reescalados.
+   }
+\end{figure}
+
+%------------------------------------------------
+\section{Modelagem orientada a padrões}
+
+Contrastamos diferentes padrões observados no complexo de \textit{Phylloscopus trochiloides} com padrões
+obtidos nas simulações com o objetivo de selecionar o conjunto de parâmetros usado para avaliar o efeito
+da configuração espacial sobre a formação de espécies em anel. Pretendemos, com isso, não apenas estabelecer
+se a configuração da paisagem pode contribuir para a especiação, mesmo sem afetar a distância média
+entre os indivíduos, mas também avaliar se a configuração espacial da área de distribuição de \textit{Phylloscopus
+trochiloides} pode estar contribuindo para a manutenção desta espécie em anel. Esta abordagem orientada a múltiplos
+padrões pode orientar decisões a respeito de aspectos estruturais de modelos baseados em indivíduos e reduzir 
+a incerteza nos valores dos parâmetros \parencite{grimm_pattern-oriented_2005}. No presente trabalho, esta estratégia foi
+essencial na etapa de parametrização devido a falta das informações necessárias para estimar os valores dos parâmetros
+do modelo, incluindo o desconhecimento dos mecanismos genéticos envolvidos na aquisição do isolamento reprodutivo neste
+sistema. Diferentes combinações de parâmetros foram testadas e foi feita uma comparação qualitativa entre padrões 
+(abordagem que tem sido comum neste tipo de comparação \parencite{piou_proposing_2009}).
+
+
+
+
+\begin{table}
+\centering
+\caption{\label{table:dists}
+Distância genética par-a-par entre sítios de amostragem. Resultados do complexo de
+\textit{Phylloscopus trochiloides} (adaptados de \cite{irwin_speciation_2005}) usando 62 marcadores AFLP e 105
+indivíduos em 10 sítios de amostragem são mostrados em azul. Resultados das simulações usando uma amostra de 62 loci e 100 indivíduos dos
+10 sítios de amostragem mostrados na figura \ref{fig:barreiras} em preto. Na diagonal estão mostrados as distâncias
+genéticas média dentro de cada sítio. Acima e abaixo da diagonal estão as distâncias genéticas médias par-a-par entre
+sítios de amostragem das espécie em anel real e da simulada respectivamente. Os sítios de amostragem de \textit{Phylloscopus
+trochiloides} são os identificados na figura 1A de \cite{irwin_ring_2001} e estão representados na tabela da seguinte forma:
+A=YK, B=TL, C=AA, D=PK, E=KL, F=MN, G=LN, H=XN, I=ST e J=UY.
+}
+\begin{tabularx}{\textwidth}{ C{1} | C{1} C{1} C{1} C{1} C{1} C{1} C{1} C{1} C{1} C{1}}
+   \hlinewd{1.5pt}
+      & \textbf{\textcolor{blue}{A}} & \textbf{\textcolor{blue}{B}} & \textbf{\textcolor{blue}{C}} & \textbf{\textcolor{blue}{D}}
+      & \textbf{\textcolor{blue}{E}} & \textbf{\textcolor{blue}{F}} & \textbf{\textcolor{blue}{G}} & \textbf{\textcolor{blue}{H}}
+      & \textbf{\textcolor{blue}{I}} & \textbf{\textcolor{blue}{J}}\tabularnewline
+   \hline
+    \textbf{A} & \textcolor{blue}{7.73/} \newline 5.76 & \vspace{0pt}\textcolor{blue}{7.04} &\vspace{0pt}\textcolor{blue} {7.60}
+    & \vspace{0pt} \textcolor{blue}{10.33} &\vspace{0pt}\textcolor{blue}{11.05} & \vspace{0pt} \textcolor{blue}{14.50} 
+    &\vspace{0pt} \textcolor{blue}{13.17} & \vspace{0pt}\textcolor{blue}{17.00} &\vspace{0pt} \textcolor{blue}{17.36}
+    &\vspace{0pt} \textcolor{blue}{15.78}\tabularnewline
+    
+    \textbf{B} & \vspace{0pt}6.58 &\textcolor{blue}{6.68/} \newline 6.60 &\vspace{0pt}\textcolor{blue} {7.20}
+    & \vspace{0pt} \textcolor{blue}{10.16} &\vspace{0pt}\textcolor{blue}{11.41} & \vspace{0pt} \textcolor{blue}{14.94} 
+    &\vspace{0pt} \textcolor{blue}{13.58} & \vspace{0pt}\textcolor{blue}{17.43} &\vspace{0pt} \textcolor{blue}{18.16}
+    &\vspace{0pt} \textcolor{blue}{16.04}\tabularnewline
+    
+    \textbf{C} & \vspace{0pt}8.86 & \vspace{0pt}8.92 &\textcolor{blue}{7.16/} \newline 6.40
+    & \vspace{0pt} \textcolor{blue}{10.03} &\vspace{0pt}\textcolor{blue}{10.46} & \vspace{0pt} \textcolor{blue}{13.80} 
+    &\vspace{0pt} \textcolor{blue}{12.70} & \vspace{0pt}\textcolor{blue}{15.64} &\vspace{0pt} \textcolor{blue}{16.99}
+    &\vspace{0pt} \textcolor{blue}{14.57}\tabularnewline
+    
+    \textbf{D} & \vspace{0pt}9.52 & \vspace{0pt}9.44 & \vspace{0pt}6.94
+    & \textcolor{blue}{10.43/} \newline 6.07 &\vspace{0pt}\textcolor{blue}{10.93} & \vspace{0pt} \textcolor{blue}{14.81} 
+    &\vspace{0pt} \textcolor{blue}{13.00} & \vspace{0pt}\textcolor{blue}{14.80} &\vspace{0pt} \textcolor{blue}{16.00}
+    &\vspace{0pt} \textcolor{blue}{15.04}\tabularnewline
+    
+    \textbf{E} & \vspace{0pt}10.16 & \vspace{0pt}10.52 & \vspace{0pt}8.50
+    & \vspace{0pt}7.18 &  \textcolor{blue}{10.76/} \newline 6.02 & \vspace{0pt} \textcolor{blue}{14.57} 
+    &\vspace{0pt} \textcolor{blue}{12.10} & \vspace{0pt}\textcolor{blue}{14.34} &\vspace{0pt} \textcolor{blue}{16.95}
+    &\vspace{0pt} \textcolor{blue}{14.93}\tabularnewline
+    
+    \textbf{F} & \vspace{0pt}12.56 & \vspace{0pt}13.44 & \vspace{0pt}11.42
+    & \vspace{0pt}9.78 &  \vspace{0pt}7.90 & \textcolor{blue}{13.33/} \newline 5.80 
+    &\vspace{0pt} \textcolor{blue}{12.42} & \vspace{0pt}\textcolor{blue}{14.10} &\vspace{0pt} \textcolor{blue}{17.00}
+    &\vspace{0pt} \textcolor{blue}{15.08}\tabularnewline
+    
+    \textbf{G} & \vspace{0pt}13.34 & \vspace{0pt}14.62 & \vspace{0pt}12.24
+    & \vspace{0pt}10.88 &  \vspace{0pt}8.98 & \vspace{0pt}5.14 
+    &\textcolor{blue}{12.27/} \newline 3.93  & \vspace{0pt}\textcolor{blue}{13.00} &\vspace{0pt} \textcolor{blue}{16.44}
+    &\vspace{0pt} \textcolor{blue}{14.67}\tabularnewline
+    
+    \textbf{H} & \vspace{0pt}16.74 & \vspace{0pt}17.54 & \vspace{0pt}14.64
+    & \vspace{0pt}13.50 &  \vspace{0pt}10.86 & \vspace{0pt}7.60 
+    & \vspace{0pt}6.64   & \textcolor{blue}{10.60/} \newline 5.67 &\vspace{0pt} \textcolor{blue}{14.21}
+    &\vspace{0pt} \textcolor{blue}{13.17}\tabularnewline
+    
+    \textbf{I} & \vspace{0pt}16.74 & \vspace{0pt}17.30 & \vspace{0pt}14.98
+    & \vspace{0pt}13.82 &  \vspace{0pt}10.98 & \vspace{0pt}8.10 
+    & \vspace{0pt}7.18   & \vspace{0pt}5.98  &\textcolor{blue}{13.64/} \newline 5.31
+    &\vspace{0pt} \textcolor{blue}{14.52}\tabularnewline
+    
+    \textbf{J} & \vspace{0pt}17.36 & \vspace{0pt}8.20 & \vspace{0pt}16.54
+    & \vspace{0pt}16.38 &  \vspace{0pt}14.10 & \vspace{0pt}10.46 
+    & \vspace{0pt}8.86   & \vspace{0pt}8.18  & \vspace{0pt}7.46
+    &\textcolor{blue}{13.40/} \newline 6.47\tabularnewline
+    \hlinewd{1.5pt}
+\end{tabularx}
+\end{table}
+
+
+Na espécie em anel mostrada na figura \ref{fig:notempo} e no complexo da espécie \textit{Phylloscopus trochiloides}
+há variação genética gradual ao longo
+do espaço geográfico (Fig. \ref{fig:compara}, C e D). Transformando os dados genéticos usando métodos de ordenação, ambos os casos 
+apresentam decomposição similar da variância dos componentes principais ($15.9$ versus $19.4\%$ para o primeiro componente e $10.8$ 
+versus $5.6\%$ para o segundo componente).
+ A distância 
+genética entre indivíduos aumenta linearmente com a distância geográfica em volta do anel (Fig. \ref{fig:compara}, E e F). 
+Para a amostra da figura \ref{fig:compara}, a distância genética média
+dentro da área amostrada é aproximadamente 3 e a distância genética entre áreas amostradas na região de contato secundário é perto
+de 7. Esse resultado está de acordo com os dados de AFLP de \textit{Phylloscopus trochiloides}, para os quais a distância genética média
+entre populações na área de contato secundário é cerca de duas vezes a distância média dentro das populações (Tabela \ref{table:dists}).
+Isso sugere que populações
+separadas por metade da distância total em volta do anel já devem estar isoladas reprodutivamente.
+As populações terminais entraram em contato após cerca de 2000 gerações (Fig. \ref{fig:notempo}, linha do meio). Esse número de gerações
+é consistente com o tempo de expansão de \textit{Phylloscopus trochiloides} associado a expansão do seu habitat. A distribuição do habitat 
+florestal começou a se expandir há aproximadamente 10 mil anos, chegando a área atual 
+cerca de 2000 anos depois \parencite{irwin_siberian_2005}. Dado que a espécie tem um ciclo de vida anual e é dependente de áreas florestais
+\parencite{price_evolution_1997}, a taxa de expansão populacional nas nossas simulações é
+consistente com os dados empíricos \parencite{irwin_siberian_2005}.
+
+Nossas simulações de espécies 
+em anel pressupõem que a população não apresentava variação genética antes do início da expansão.
+No entanto, a filogenia mitocondrial do complexo de \textit{Phylloscopus trochiloides} sugere que
+o tempo do início da divergência é de
+mais de 1 milhão de anos, tempo anterior ao início do processo de expansão, estimado em 10 mil
+anos \parencite{irwin_speciation_2005}. Apesar disso, nossos marcadores simulados apresentam
+padrões de variação no espaço semelhantes aos do complexo real.
+Com o objetivo de investigar essa aparente incongruência, incorporamos em nossas simulações um
+genoma adicional que não está envolvido no isolamento reprodutivo. A replicação desse conjunto de loci é
+uniparental e assexuada, de modo equivalente ao que ocorre com o genoma mitocondrial. Mostramos que
+este genoma assexuado atua como um relógio molecular do tempo total de divergência, enquanto o genoma 
+sexuado, devido a recombinação, guarda a história de divergência recente, neste caso associada a 
+expansão populacional (Fig. \ref{fig:assexual}). Este genoma assexuado apresenta um padrão de
+descontinuidades genéticas marcantes, semelhante ao observado para alguns táxons que sofreram
+expansão recente e apresentam fluxo gênico contemporâneo \parencite{irwin_speciation_2005,
+joseph_where_2008}. Caso a divergência anterior à expansão esteja espacialmente estruturada,
+as frentes de expansão podem corresponder a diferentes ramos dessas diferenciação ancestral
+\parencite{rauch_theory_2004,rauch_estimating_2005}, o poderia resultar em quebras filogeográficas
+marcantes mesmo na presença de fluxo gênico ao longo de processo de divergência
+\parencite{irwin_phylogeographic_2002,kuo_phylogeographic_2005}.
+
+\begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{Figures/felosas/compara.pdf}
+%\includegraphics[width=1\columnwidth]{Figures/felosas/compara.png}
+ \caption{\label{fig:compara} Resultados de uma simulação (A, C e E) comparados a dados de uma espécie em anel real 
+ (\textit{Phylloscopus trochiloides}) 
+[B, D e F, adaptado de \cite{irwin_speciation_2005}].  As cores dos indivíduos representam a distância genética em relação ao indivíduo 
+marcado com uma estrela. O mapa da Ásia (B) mostra a distribuição da espécie em anel na estação reprodutiva com os sítios de amostragem
+indicados por pontos pretos. As cores representam diferentes táxons: (a), \textit{plumbeitarsus}; (b), \textit{obscuratus}; 
+(c), \textit{trochiloides}; (d), \textit{ludlowi}; (e); (f), \textit{viridanus} e (g), \textit{nitidus}. A área hachurada na Sibéria
+central indica a região na qual há sobreposição na distribuição de dois táxons. C e D mostram dados genéticos transformados
+por análise de componentes principais e análise de coordenadas principais, respectivamente. Na população simulada, foram amostrados
+ 25 loci de 85 indivíduos. Para \textit{Phylloscopus trochiloides}, os dados genéticos correspondem a 62 marcadores AFLP (mais detalhes
+na figura \ref{fig:pca}). As distâncias genéticas corrigidas entre sítios de amostragem foram calculadas como sendo o número médio de diferenças
+par-a-par entre duas áreas de amostragem menos o número médio de diferenças entre indivíduos dentro da área de amostragem (mais detalhes
+na figura \ref{fig:correla}). As linhas são ajuste lineares a todos os pontos. As distâncias geográficas e genéticas da simulação foram 
+reescaladas para serem comparáveis ao caso real.}
+\end{figure}
+
+
+\begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{Figures/felosas/assexual.pdf}
+%\includegraphics[width=1\columnwidth]{Figures/felosas/assexual.png}
+ \caption{\label{fig:assexual} Análise de componentes principais dos dados genéticos
+ do genoma que resulta em isolamento reprodutivo (pontos coloridos) e de um genoma 
+ assexuado de 1000 loci (pontos em cinza). Todo os loci do genoma assexuado são neutros,
+ não sofrem recombinação e não estão envolvidos no isolamento reprodutivo. A análise de
+ componentes principais foi realizada para cada região separadamente (sexuada e assexuada)
+ e as distâncias resultantes foram normalizadas pela maior distância genética entre dois
+ indivíduos da população para cada região. As cores representam a distância genética em 
+ relação a um indivíduo de referência localizado na área de contanto secundário. 
+ Azul escuro corresponde aos parceiros potenciais do indivíduo de referência (aqueles
+para os quais a distância genética é menor do que o valor crítico, \textit{G}).
+(A) População que evoluiu
+por 1 milhão de gerações antes da expansão populacional. (B) Dez mil anos após a expansão
+populacional (espécie em anel). Os subgráficos mostram os dados do genoma sexuado
+aumentados.
+}
+\end{figure}
+
+\section{Fatores que podem explicar a persistência de espécies em anel}
+
+\subsection{O efeito da configuração geográfica}
+
+Testamos a robustez da formação de espécies em anel à variação na configuração geográfica da área de distribuição comparando os
+dois cenário mostrados na figura \ref{fig:barreiras}.
+Propomos que a maior extensão da área habitável próxima a região de contato secundário poderia aumentar a probabilidade de formação
+de espécies em anel. Uma maior abundância relativa das formas divergentes pode inibir flutuações genéticas que poderiam resultar
+em oportunidade reprodutivas capazes de reverter a aquisição do isolamento reprodutivo \parencite{nosil_ecological_2009}.
+As simulações confirmaram que a presença de uma área mais extensa de mesmo tamanho, próxima ao ponto de contato secundário,
+favorece a formação de espécies
+em anel, mesmo quando o tempo de expansão não é afetado (Fig. \ref{fig:bols}). 
+A maior extensão na área de contato secundário aumenta a extensão
+das formas isoladas reprodutivamente, e a seleção local contra formas raras limita a sobreposição entre elas, reduzindo as chances de
+hibridização. A figura \ref{fig:fases} mostra como a variação na densidade populacional e taxa de dispersão, parâmetros relacionados à velocidade
+de expansão, afetam a formação de espécies em anel. Os resultados dos dois cenários destacam a importância da configuração 
+espacial na estruturação da variabilidade genética no espaço, e, portanto, no processo de especiação, e que este feito pode ser independente
+da distância média entre os indivíduos.
+Comparações entre táxons aparentados que compartilham uma história de expansão em torno das mesmas barreiras geográficas poderiam 
+fornecer evidências empíricas sobre a relação entre atributos geográficos e espécie-específicos na formação de espécies em anel.
+O gênero \textit{Phylloscopus} é composto por aves dependentes de florestas e acredita-se que as suas áreas de distribuição se
+expandiram em associação com a expansão de florestas após as glaciações dos Pleistoceno \parencite{price_evolution_1997}. No entanto,
+\textit{P. trochiloides} é o único caso neste grupo no qual uma espécie em anel parece ter se formado. As espécies no complexo de
+\textit{P. inornatus}, por exemplo, são consideradas espécies distintas devido a divergência genética e no canto 
+\parencite{irwin_cryptic_2001}. Outro caso interessante seria o complexo de salamandras que inclui \textit{Ensatina eschscholtzii} que 
+também ocorrem em simpatria com táxons aparentados \parencite{wake_what_2009}. 
+
+Dada a demonstração de que a formação de espécies em anel por especiação por distância é possível, uma questão importante é
+se as espécies em anel são estáveis à aquisição de isolamento reprodutivo completo ou à homogeneização, e a avaliação da sua
+persistência no tempo é importante para determinar a sua prevalência na natureza. Sendo assim,
+estendemos as simulações que resultaram em espécies anel após 10 mil gerações.
+No cenário no qual mais espécies em anel se formam, elas também persistem por mais tempo, embora eventualmente a maioria se subdivida 
+em mais de uma espécie ou se misture em uma única espécie. O tempo após o qual 90\% das espécies em anel simulados já estavam desfeitas
+foi 130 mil gerações no cenário no qual a sua chance de formação é maior (maior extensão da área próximo à região de contato secundário).
+Para o outro cenário este tempo foi de 50 mil gerações (Figs. \ref{fig:estabilidade} e \ref{fig:fasesD}). Para a simulação mostrada na
+Fig. \ref{fig:compara}, espera-se que a espécie em anel se divida em pelo menos duas espécies em 10 mil a 50 mil anos. Embora espécies 
+em anel não sejam estáveis, elas podem persistir por tempos bastantes longo o que deve ser importante para sua observação na natureza.
+Estes resultados são um contraponto à ideia de instabilidade e transitoriedade de espécies em anel, sugerida por modelos
+anteriores \parencite{noest_instability_1997,gavrilets_rapid_1998,ashlock_evolution_2010}.
+
+
+\begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{Figures/felosas/bols.pdf}
+%\includegraphics[width=1\columnwidth]{Figures/felosas/bols.png}
+ \caption{\label{fig:bols} Duas simulações de expansão populacional que diferem apenas quanto ao ponto de origem da população em
+relação a barreira central, ao sul (primeira linha) e ao norte (segunda linha). Como há mais área disponível ao norte, na simulação
+da primeira linha essa área está próxima a região de contato secundário, enquanto na segunda linha, está mais próxima da região
+de origem. Em ambos os casos, $\rho=0.50$ (densidade populacional) e $D=0.1$ (taxa de dispersão).  As 
+cores representam a distância genética em relação a um indivíduo de referência marcado com uma estrela.}
+\end{figure}
+
+
+
+\begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{Figures/felosas/fases.pdf}
+ \caption{\label{fig:fases}
+ Diagrama de fases mostrando a formação de espécies em anel para diferentes valores de taxa de dispersão e densidade populacional
+ após 10 mil gerações simuladas. A área azul representa espécies em anel; a vermelha, uma única espécie; e amarela, múltiplas espécies.
+ Essas áreas foram extrapoladas de 48 combinações de parâmetros com cinco réplicas para cada. A densidade populacional 
+ e a taxa de dispersão variou entre 0.05 e 0.03. Nas áreas listradas, onde há sobreposição de cores, réplicas diferentes do mesmo 
+ conjunto de parâmetros
+ apresentaram resultados diferentes. A e B diferem apenas na configuração das barreiras geográficas: maior área de distribuição
+ próximo a região de contato secundário (mesmo que a linha superior da Fig. \ref{fig:bols}) ou próximo a região de origem da
+ população (mesmo que a linha inferior da Fig. \ref{fig:bols}), respectivamente. 
+}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=8cm]{Figures/felosas/estabilidade.pdf}
+ \caption{\label{fig:estabilidade} Espécies em anel detectadas após 10 mil gerações foram simuladas por gerações adicionais.
+O histograma mostra a proporção desses anéis que permaneceram após um certo número de gerações adicionais. O cinza claro e escuro
+representam uma maior área disponível próxima a área de contato secundário ou origem do anel, respectivamente (como mostrado na
+Fig. \ref{fig:barreiras}). A linha vermelha tracejada indica $10\%$.}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=1\columnwidth]{Figures/felosas/fases_depois.pdf}
+%\includegraphics[width=1\columnwidth]{Figures/felosas/fases_depois.png}
+ \caption{\label{fig:fasesD}
+ Diagrama de fases mostrando a formação de espécies em anel para diferentes valores de taxa de dispersão e densidade populacional
+ após 50 mil (A) e 100 mil (B) gerações simuladas. A configuração geográfica é a que apresenta uma maior área de distribuição
+ próximo a região de contato secundário (Fig. \ref{fig:barreiras}, lado esquerdo). Esta é a configuração para a qual espécies em anel
+ tiveram maior probabilidade de se formar e persistiram por mais tempo.
+ A área azul representa espécies em anel; a vermelha, uma única espécie; e amarela, múltiplas espécies.
+ Essas áreas foram extrapoladas de 48 combinações de parâmetros com cinco réplicas para cada. A densidade populacional 
+ e a taxa de dispersão variou entre 0.05 e 0.03. Nas áreas listradas, onde há sobreposição de cores, réplicas diferentes do mesmo 
+ conjunto de parâmetros
+ apresentaram resultados diferentes. A e B diferem apenas na configuração das barreiras geográficas: maior área de distribuição
+ próximo a região de contato secundário (mesmo que a linha superior da Fig. \ref{fig:bols}) ou próximo a região de origem da
+ população (mesmo que a linha inferior da Fig. \ref{fig:bols}), respectivamente. 
+}
+\end{figure}
+
+\subsection{O papel da seleção}
+
+Em nosso modelo, a fronteira entre as formas isoladas reprodutivamente na área de contato secundário é mantida pela dificuldade
+de indivíduos circundados por vizinhos geneticamente diferentes em encontrar parceiros compatíveis. As restrições espaciais e
+genéticas impostas à reprodução resultam em seleção contra formas raras nas áreas adjacentes à região de contato secundário.
+Este tipo de seleção, além de ser plausível em populações naturais, tem efeito análogo a outros tipo de seleção documentadas
+na interface entre populações isoladas reprodutivamente \parencite{nosil_ecological_2012}, inclusive em espécies em anel
+\parencite{alexandrino_strong_2005}. No entanto, diferente do suposto inicialmente, este processo parece não ser afetado pelo
+número mínimo de parceiros potenciais ($P$) imposto na simulação. A formação de espécies em anel foi robusta à variação neste
+parâmetro individualmente, e em a combinação com densidade populacional e a taxa de dispersão (variados da mesma maneira que
+na Fig. \ref{fig:fases}). $P$ foi variado de $0$ a $20$ com um incremento de $2$, no entanto, dada a maneira como o modelo foi
+implementado, mesmo quando $P=0$ o indivíduo que não tem nenhum parceiro em potencial não pode se reproduzir, ou seja ($P=0$ é
+equivalente a $P=1$).
+
+Embora a seleção ambiental pareça ser importante para alguns caracteres do complexo de \textit{Phylloscopus trochiloides}
+\parencite{irwin_song_2000,irwin_speciation_2005,irwin_siberian_2005} e em outras espécies em anel em potencial
+\parencite[por exemplo, em][]{bensch_genetic_2009,cacho_caribbean_2012}, faltam evidências que possam sugerir uma forte relação entre
+divergência ecológica e aquisição do isolamento reprodutivo nestes complexos \parencite{price_roles_2010}.
+Por exemplo, para a espécie em anel que inclui a salamandra \textit{Ensatina eschscholtzii}, a divergência em marcadores neutros é 
+um melhor preditor do grau de isolamento reprodutivo do que a divergência ecológica. Como mencionado no capítulo
+\ref{chap:sspanel}, para que seleção ambiental possa explicar diretamente a aquisição do isolamento reprodutivo em espécies em
+anel, o gradiente de variação ambiental deve ser tal que as condições ambientais sejam mais diferentes entre as formas terminais
+que são adjacentes. Ainda que seja possível a existência de um gradiente ambiental circular, mais frequentemente as condições
+ambientais apresentam variação espacialmente linear. Por outro lado, outros mecanismos seletivos podem resultar em uma maior 
+divergência entre as formas de terminais de espécies em anel. Para os táxons do complexo de \textit{Phylloscopus trochiloides},
+a escolha do parceiro reprodutivo é feita com base no canto, e as duas formas siberianas apresentam cantos mais longos e complexos
+do que as formas himalaias. Acredita-se que as duas frentes de expansão tenham sofrido pressões evolutivas paralelas sobre o canto,
+e que esta seleção tenha sido mediada pelo gradiente latitudinal de variação ambiental. Deste modo, este seria um exemplo da interação
+entre seleção sexual e ambiental para a aquisição do isolamento reprodutivo
+\parencite{irwin_song_2000}. 
+Em nossas simulações, a seleção sexual dependente de frequência gerada pelo acasalamento
+assortativo que \parencite{de_aguiar_evolution_2014}, juntamente com a restrição espacial à reprodução
+\parencite{de_aguiar_global_2009} resulta em especiação. É possível que regimes seletivos com dependência de frequência
+sejam particularmente favoráveis à formação de espécies em anel pois, quando acompanhados
+de isolamento geográfico ou por distância, podem resultar em divergência entre populações
+submetidas às mesmas pressões seletivas.
+
+
+\iffalse
+Em nossas simulações, o acasalamento assortativo juntamente com a restrição espacial à 
+reprodução resulta em especiação \parencite{de_aguiar_global_2009}. Neste caso, a escolha do parceiro se dá por correspondência
+genotípica, que supõe-se ser plenamente refletida no fenótipo, representado implicitamente, e o mesmo conjunto de loci
+determina simultaneamente a aparência do indivíduo e os caracteres que ele prefere.
+Sugerimos que o acasalamento assortativo deve ser particularmente favorável à formação de espécies em anel pois, quando acompanhado
+de isolamento geográfico ou por distância, podem resultar em divergência entre populações submetidas às mesmas pressões seletivas, desde que
+a seleção e a escolha do parceiro reprodutivo atuem sobre componentes diferentes da variação gerada pela estruturação espacial.
+\fi
+%------------------------------------------------
+%\printbibliography[heading=subbibliography]
+%\end{refsection}
+
+\iffalse
+\begingroup
+\let\enotesize\normalsize
+\renewcommand\notesname{Notas de ???}
+\renewcommand\enoteformat{\noindent[\theenmark]\hspace{0.06in}}
+\label{notas}
+%\theendnotes
+\endgroup
+
+\end{document}
+\fi
